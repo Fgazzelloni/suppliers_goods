@@ -1,2 +1,3 @@
-# suppliers_goods
-private repository for testing marketing of suppliers goods
+# Suppliers for goods
+
+Private repository for testing marketing of suppliers goods
