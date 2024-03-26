@@ -31,6 +31,7 @@ library(tidyverse)
 ```{r}
 assignment_data <- readRDS('data/assignment_data.rds')
 # assignment_data%>%View
+assignment_data%>%names
 ```
 
 ```{r}
@@ -363,6 +364,7 @@ plot(PrincipalComponents,type="lines") # scree plot
 ```{r}
 groups <- demo%>%
   select(-20)%>%
+  mutate_all(haven::as_factor)%>%
   pivot_longer(cols=everything())
 ```
 
@@ -370,15 +372,28 @@ groups <- demo%>%
 ```{r}
 PrincipalComponents$scores %>%# the principal components
   as.data.frame()%>%
+  select(1:2)%>%
   cbind(groups) %>%
-  select(1,2,52,53) %>%
-  mutate(value=haven::as_factor(value))%>%
   ggplot(aes(x=Comp.1,y=Comp.2,group=value))+
   geom_point(aes(color=value),
              size=0.5,
              alpha=0.5,
              show.legend = F)+
   facet_wrap(~name)
+```
+```{r}
+PrincipalComponents$scores %>%# the principal components
+  as.data.frame()%>%
+  cbind(groups) %>%
+  select(1,2,52,53) %>%
+  mutate(value=haven::as_factor(value))%>%
+  filter(name=="d_kom_drink")%>%
+  drop_na()%>%
+  ggplot(aes(x=Comp.1,y=Comp.2,group=value))+
+  geom_point(aes(color=value),
+             size=1,
+             alpha=0.5,
+             show.legend = F)
 ```
 
 ### TMWR
@@ -480,6 +495,7 @@ summary(m)
 ## Resouces
 
 - <https://ladal.edu.au/surveys.html>
+- <https://rpubs.com/Michiel_Vermeulen/1166392>
 
 
 
